@@ -1,0 +1,4 @@
+interface:
+  display_name: "Volcengine Video Studio"
+  short_description: "Generate videos with prompt, image, or draft-video inputs on ARK"
+  default_prompt: "Use $volcengine-video-studio to generate or inspect a Volcengine video task from this request."
