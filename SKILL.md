@@ -1,6 +1,6 @@
 ---
 name: volcengine-video-studio
-description: Generate and inspect Volcengine/ARK videos with real task inputs. Use when users want text-to-video, image-to-video, draft-video refinement, task polling, downloadable outputs, or direct inspection of Seedance video generation jobs. Best for hands-on execution instead of only drafting prompts.
+description: Production-ready Volcengine/ARK video generation for prompt-to-video, image-to-video, and draft-video refinement. Use when users want a hands-on skill that can submit jobs, poll status, inspect task payloads, and download finished outputs with Seedance-compatible models.
 ---
 
 # volcengine-video-studio
@@ -157,6 +157,18 @@ This makes local reference media usable without manual upload steps.
 - Missing key → set `VOLCENGINE_API_KEY`
 - Missing or wrong model → set `VOLCENGINE_VIDEO_MODEL`
 - If a video run accidentally picks an image model (for example `doubao-seedream-4-5`) → explicitly set `VOLCENGINE_VIDEO_MODEL` instead of reusing `VOLCENGINE_MODEL`
+- Missing endpoint → set `VOLCENGINE_VIDEO_ENDPOINT`
+- 401/403 → key invalid or missing permission
+- 404 → endpoint wrong or region mismatch
+- 400 → unsupported model/parameter combination
+- Task remains queued too long → check quota, rate limit, or model availability
+- No obvious video URL in response → inspect `raw`
+
+## References
+
+- `references/sources.md`
+- `references/api-notes.md`
+ing `VOLCENGINE_MODEL`
 - Missing endpoint → set `VOLCENGINE_VIDEO_ENDPOINT`
 - 401/403 → key invalid or missing permission
 - 404 → endpoint wrong or region mismatch
