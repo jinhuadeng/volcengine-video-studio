@@ -7,12 +7,21 @@ description: Executable video generation workflow for Volcengine/ARK-compatible 
 
 Use this skill to actually submit and complete Volcengine / ARK video generation jobs instead of only drafting prompts.
 
+Treat the prompt and optional reference media as runtime input for each task. Do not reuse documentation example prompts or example media in a real generation request unless the user explicitly asks for that exact example.
+
 ## Default path
 
-Run the bundled script:
+Run the bundled script with the actual prompt for the current task:
 
 ```bash
-python3 scripts/generate_video.py "清晨海边，电影感镜头，海风吹动人物衣角，真实光影"
+python3 scripts/generate_video.py "当前任务的实际视频提示词"
+```
+
+To switch to the alternate model for one run:
+
+```bash
+VOLCENGINE_VIDEO_MODEL=doubao-seedance-1-5-pro-251215 \
+python3 scripts/generate_video.py "当前任务的实际视频提示词"
 ```
 
 By default the script:
@@ -54,7 +63,7 @@ The script calls:
 ### 1. Text to video
 
 ```bash
-python3 scripts/generate_video.py "赛博朋克城市夜景，镜头缓慢推进，霓虹反射在雨夜街道上" \
+python3 scripts/generate_video.py "为当前需求编写的视频提示词" \
   --ratio 16:9 \
   --duration 5
 ```
@@ -62,8 +71,8 @@ python3 scripts/generate_video.py "赛博朋克城市夜景，镜头缓慢推进
 ### 2. Image to video
 
 ```bash
-python3 scripts/generate_video.py "让人物微笑并轻微转头，镜头稳定" \
-  --image ~/Desktop/portrait.png \
+python3 scripts/generate_video.py "描述你希望图片如何动起来" \
+  --image ~/Desktop/reference.png \
   --ratio 9:16 \
   --duration 5
 ```
@@ -71,7 +80,7 @@ python3 scripts/generate_video.py "让人物微笑并轻微转头，镜头稳定
 ### 3. Draft/sample video to final video
 
 ```bash
-python3 scripts/generate_video.py "基于样片保持动作节奏，提升细节和质感" \
+python3 scripts/generate_video.py "说明要保留什么、增强什么" \
   --video ~/Desktop/draft.mp4
 ```
 
@@ -84,7 +93,7 @@ python3 scripts/generate_video.py --task-id <task_id> --wait false
 ### 5. Submit only, do not wait
 
 ```bash
-python3 scripts/generate_video.py "产品广告短片，金属质感，高级商业风" \
+python3 scripts/generate_video.py "当前任务的实际视频提示词" \
   --ratio 16:9 \
   --wait false
 ```
@@ -93,8 +102,8 @@ python3 scripts/generate_video.py "产品广告短片，金属质感，高级商
 
 ```bash
 python3 scripts/generate_video.py --content-json '[
-  {"type":"text","text":"一只橘猫坐在窗边看雨"},
-  {"type":"image_url","image_url":{"url":"https://example.com/ref.png"}}
+  {"type":"text","text":"当前任务的实际视频提示词"},
+  {"type":"image_url","image_url":{"url":"https://example.com/reference.png"}}
 ]'
 ```
 
@@ -127,17 +136,19 @@ This makes local reference media usable without manual upload steps.
 ## Execution checklist
 
 1. Confirm whether the user wants text-to-video, image-to-video, or draft-video refinement.
-2. Choose prompt-first mode by default; use `--content-json` only when the API shape must be customized.
-3. Pass local reference media directly with `--image` or `--video`.
-4. Prefer `--duration` for whole-second clips and `--frames` only when finer control is required.
-5. Poll by default so the final answer includes actual output URLs or downloaded files.
-6. Mention the saved file paths when downloads are enabled.
-7. If the API returns an unexpected structure, surface the raw JSON instead of guessing.
+2. Treat the prompt as task-specific runtime input; never carry over example prompt text or example media into a real run unless explicitly requested.
+3. Choose prompt-first mode by default; use `--content-json` only when the API shape must be customized.
+4. Pass local reference media directly with `--image` or `--video`.
+5. Prefer `--duration` for whole-second clips and `--frames` only when finer control is required.
+6. Poll by default so the final answer includes actual output URLs or downloaded files.
+7. Mention the saved file paths when downloads are enabled.
+8. If the API returns an unexpected structure, surface the raw JSON instead of guessing.
 
 ## Troubleshooting
 
 - Missing key → set `VOLCENGINE_API_KEY`
-- Missing model → set `VOLCENGINE_VIDEO_MODEL`
+- Missing or wrong model → set `VOLCENGINE_VIDEO_MODEL`
+- If a video run accidentally picks an image model (for example `doubao-seedream-4-5`) → explicitly set `VOLCENGINE_VIDEO_MODEL` instead of reusing `VOLCENGINE_MODEL`
 - Missing endpoint → set `VOLCENGINE_VIDEO_ENDPOINT`
 - 401/403 → key invalid or missing permission
 - 404 → endpoint wrong or region mismatch
