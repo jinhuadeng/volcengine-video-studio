@@ -135,7 +135,14 @@ def request_json(req: urllib.request.Request, timeout: int) -> Dict[str, Any]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Submit and optionally wait for a Volcengine/ARK video generation task")
     parser.add_argument("prompt", nargs="?", default="", help="Main text prompt. Ignored when --content-json is provided.")
-    parser.add_argument("--model", default=getenv("VOLCENGINE_VIDEO_MODEL", "VOLCENGINE_MODEL", "ARK_MODEL"))
+    parser.add_argument(
+        "--model",
+        default=getenv(
+            "VOLCENGINE_VIDEO_MODEL",
+            default="doubao-seedance-1-0-pro-fast-251015",
+        ),
+        help="Video model id. Recommended: doubao-seedance-1-0-pro-fast-251015 (default) or doubao-seedance-1-5-pro-251215.",
+    )
     parser.add_argument("--endpoint", default=getenv("VOLCENGINE_VIDEO_ENDPOINT", "VOLCENGINE_ENDPOINT", "ARK_BASE_URL", "OPENAI_BASE_URL"))
     parser.add_argument("--api-key", default=getenv("VOLCENGINE_API_KEY", "ARK_API_KEY", "OPENAI_API_KEY"))
     parser.add_argument("--image", action="append", default=[], help="Reference image URL, data URL, or local path. Repeat flag for multiple images.")

@@ -27,8 +27,18 @@ By default the script:
 The script reads config from env vars:
 
 - `VOLCENGINE_API_KEY` or `ARK_API_KEY`
-- `VOLCENGINE_VIDEO_MODEL` or `VOLCENGINE_MODEL` or `ARK_MODEL`
+- `VOLCENGINE_VIDEO_MODEL` (recommended)
 - `VOLCENGINE_VIDEO_ENDPOINT` or `VOLCENGINE_ENDPOINT` or `ARK_BASE_URL`
+
+Recommended video models:
+
+- `doubao-seedance-1-0-pro-fast-251015` — default, faster iteration
+- `doubao-seedance-1-5-pro-251215` — alternate higher-tier option
+
+Default behavior:
+
+- if `VOLCENGINE_VIDEO_MODEL` is unset, the script defaults to `doubao-seedance-1-0-pro-fast-251015`
+- avoid relying on `VOLCENGINE_MODEL` for video runs when that env var is also used for image generation
 
 Typical endpoint:
 
