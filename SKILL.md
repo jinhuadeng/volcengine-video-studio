@@ -1,13 +1,21 @@
 ---
 name: volcengine-video-studio
-description: Executable video generation workflow for Volcengine/ARK-compatible video APIs. Use when users need text-to-video, image-to-video, draft-video-to-final-video, ratio/duration/seed controls, task polling, automatic result downloads, or direct task inspection for Volcengine Seedance-style video generation.
+description: Generate and inspect Volcengine/ARK videos with real task inputs. Use when users want text-to-video, image-to-video, draft-video refinement, task polling, downloadable outputs, or direct inspection of Seedance video generation jobs. Best for hands-on execution instead of only drafting prompts.
 ---
 
 # volcengine-video-studio
 
-Use this skill to actually submit and complete Volcengine / ARK video generation jobs instead of only drafting prompts.
+Use this skill to actually submit, poll, inspect, and download Volcengine / ARK video generation jobs instead of only drafting prompts.
 
 Treat the prompt and optional reference media as runtime input for each task. Do not reuse documentation example prompts or example media in a real generation request unless the user explicitly asks for that exact example.
+
+## What this skill is good at
+
+- text-to-video from a task-specific prompt
+- image-to-video using a local file, data URL, or remote image URL
+- draft-video refinement with a guiding prompt
+- polling existing tasks and downloading finished outputs
+- switching between a faster default model and a stronger alternate model
 
 ## Default path
 
